@@ -4,14 +4,12 @@
 name: Node.js Package
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
+  push
 
 jobs:
   build:
     runs-on: ubuntu-latest
+    container : node:16
     steps:
       - uses: actions/checkout@v3
       - uses: actions/setup-node@v3

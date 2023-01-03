@@ -5,7 +5,7 @@ router.use(logger);   //it works along with this router module
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
-  res.send('respond with a resourcesss');
+  res.send('respond with a resourcesssss');
 });
 
 

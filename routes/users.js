@@ -1,12 +1,71 @@
 var express = require('express');
 var router = express.Router();
-
 router.use(logger);   //it works along with this router module
+const mongoose = require("mongoose");
+const blog = require('../models/model1');
+
+var mongoAtlasUri = "mongodb+srv://aniajithMongodb007:1109208g@jeswacluster.inpyg8s.mongodb.net/Login?retryWrites=true&w=majority";
+
+const options = {
+  useNewUrlParser: true,
+  serverSelectionTimeoutMS: 5000,
+  autoIndex: false,
+  maxPoolSize: 10,
+  socketTimeoutMS: 45000,
+  family: 4
+}
+
+mongoose.set('strictQuery',true);
+
+
+
+const connectwithDB = () => {
+   mongoose.connect(mongoAtlasUri, options, (err, db) => {
+    if (err) {
+      console.log("error" + err);
+    } else {
+      console.log("db connected...")
+    }
+  })
+}
+
+//calling the funtion..
+connectwithDB();
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {
   res.send('respond with a resourcesssss');
 });
+
+
+router.get('/all',(req,res)=>{
+  //console.log(bl.find());
+  blog.find().then(
+    (result)=>{
+      res.send(result)
+    }
+  ).catch((err)=>{
+    console.log("error on collecting data...")
+  })
+})
+
+router.get('/add',(req,res)=>{
+  const bl = new blog({
+    Password : "12334",
+    Username : "naveeennnuus"
+  });
+  bl.save().then((result)=>{
+    console.log(result);
+    res.send(result)
+  }).catch((err)=>{
+    res.send(err);
+  })
+})
+
+
+
+
+
 
 
 //if params comes from diffrent requestss..
@@ -69,5 +128,8 @@ router.param('id',(req,res,next,id)=>{
   console.log(`Got an ID ${id}`)
   next();
 })
+
+
+
 
 module.exports = router;
